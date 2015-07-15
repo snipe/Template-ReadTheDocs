@@ -22,17 +22,24 @@
             </div>
 
             <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-                <ul>
-                    {% for itemId, item in menu.items %}
-                        <li class="toctree-l1 {{ itemId == currentMenu ? 'current' }}">
-                            <a class="reference internal {{ itemId == currentMenu ? 'current' }}"
-                               href="{{ item.absoluteUrl|default(baseUrl ~ '/' ~ item.relativeUrl) }}">
-                                {{ item.text|raw }}
-                            </a>
-                        </li>
+                {% if menu is defined %}
+                    {% for section in menu.sections %}
+                        <p class="text-muted">
+                            {{ section.name }}
+                        </p>
+
+                        <ul class="nav nav-pills nav-stacked">
+                            {% for itemId, item in section.items %}
+                                <li class="{{ itemId == currentMenu ? 'active' }}">
+                                    <a href="{{ item.absoluteUrl|default(baseUrl ~ '/' ~ item.relativeUrl) }}">
+                                        {{ item.text|raw }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     {% endfor %}
-                </ul>
-            </div>
+                {% endif %}
+            </div>                
             &nbsp;
         </nav>
 
